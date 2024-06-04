@@ -20,18 +20,18 @@ def on_text_change(event):
 
     label.text = length_message + " " + non_alphabetic_message
 
-def length_measure(event, text):
+def length_measure(event):
     if len(text) <= 16:
         label.text = "Too short, more than 16 characters please :) "
     else:
         return ""
 
-def non_alphabetic_characters(event,text):
-    non_alpha_count = len([char for char in text if not char.isalpha()])
-    if non_alpha_count < 5:
-        label.text = "Not enough special characters (at least 5 non-alphabetic characters)"
-    else:
-        return ""
+# def non_alphabetic_characters(event):
+#     non_alpha_count = len([char for char in text if not char.isalpha()])
+#     if non_alpha_count < 5:
+#         label.text = "Not enough special characters (at least 5 non-alphabetic characters)"
+#     else:
+#         return ""
 
 
 
