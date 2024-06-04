@@ -15,20 +15,58 @@ def toggle_password_visibility(event):
     pass_inp.toggle()
 
 
-
-def check_len(event):
+def checks(event):
+    # first check length
     if len(pass_inp.text) <= 16:
         len_lbl.text = 'Password too short, longer than 16 characters please'
     else:
         len_lbl.text = 'Password length is good, however the more characters the better'
 
-special_characters = "`~!@#$%^&*()_-+={[}]|\;:'<,>.?/"
+    # then check chars
+    
+    total = 0
+    for character in pass_inp.text:
+        special_characters = "!"
+ 
+        if character in special_characters:
+            total += 1
+    
 
-def check_special_characters(event):
-    if special_characters < 3:
-        special_lbl.text = 'Not enough special characters, atleast 3 please'
-    if special_characters >= 3:
-        special_lbl.text = 'Good job, you have enough special characters but the more the better'
+
+    if total < 3:
+        special_lbl.text = 'Not enough special characters, at least 3 please'
+    # if special_characters >= 3:
+    #     special_lbl.text = 'Good job, you have enough special characters but the more the better'
+
+    
+        
+
+# def check_len(event):
+#     if len(pass_inp.text) <= 16:
+#         len_lbl.text = 'Password too short, longer than 16 characters please'
+#     else:
+#         len_lbl.text = 'Password length is good, however the more characters the better'
+
+# special_characters = "`~!@#$%^&*()_-+={[}]|;:'<,>.?/"
+
+# # 
+# def check_special_characters(event):
+
+#     special_characters = "!"
+
+#     total = 0
+#     for character in pass_inp.text:
+ 
+#         if character in special_characters:
+#             total += 1
+    
+
+
+
+#     if total < 3:
+#         special_lbl.text = 'Not enough special characters, at least 3 please'
+#     # if special_characters >= 3:
+#     #     special_lbl.text = 'Good job, you have enough special characters but the more the better'
 
     
         
@@ -62,7 +100,8 @@ app.add(special_lbl, 4,1)
 
 
 
-pass_inp.add_event_listener('change', check_len)
+
+pass_inp.add_event_listener('change', checks)
 check.add_event_listener('change', toggle_password_visibility)
 
 app.run()
