@@ -26,17 +26,17 @@ def checks(event):
     
     total = 0
     for character in pass_inp.text:
-        special_characters = "!"
- 
+        special_characters = "~!@#$%^&*()_-+=|}]{[:;<,>.?/"
         if character in special_characters:
             total += 1
-    
-
-
+        
     if total < 3:
         special_lbl.text = 'Not enough special characters, at least 3 please'
-    # if special_characters >= 3:
-    #     special_lbl.text = 'Good job, you have enough special characters but the more the better'
+    
+    
+    
+    if total >= 3:
+        special_lbl.text = 'Good job, you have enough special characters but the more the better'
 
     
         
