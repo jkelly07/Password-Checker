@@ -1,5 +1,6 @@
 # Password checker attempt 2
 
+from PyDictionary import PyDictionary
 
 import gooeypie as gp
 
@@ -9,7 +10,7 @@ app.width = 1000
 app.height = 300
 app.title = "Password Checker"
 
-
+prohibited_words = []
 
 def toggle_password_visibility(event):
     pass_inp.toggle()
@@ -50,9 +51,9 @@ def open_guide_window(event):
 def checks(event):
     # first check length
     if len(pass_inp.text) <= 16:
-        len_lbl.text = 'Recommended at least 17 characters 🗙'
+        len_lbl.text = 'Recommended at least 17 characters ❌'
     else:
-        len_lbl.text = 'Password length is good, however the more characters the better'
+        len_lbl.text = 'Recommended at least 17 charcaters ✔️'
 
     # then check chars
     
@@ -63,10 +64,10 @@ def checks(event):
             total_special += 1
         
     if total_special < 3:
-        special_lbl.text = 'Recommended 3 special characters 🗙'
+        special_lbl.text = 'Recommended atleast 3 special characters ❌'
      
     if total_special >= 3:
-        special_lbl.text = 'Good job, you have enough special characters but the more the better'
+        special_lbl.text = 'Recommended atleast 3 special characters ✔️'
 
     total_numbers = 0
     for character in pass_inp.text:
@@ -75,13 +76,26 @@ def checks(event):
             total_numbers += 1
 
     if total_numbers < 2:
-        num_lbl.text = 'Recommended 2 numbers 🗙'
+        num_lbl.text = 'Recommended atleasr 2 numbers ❌'
     if total_numbers >= 2:
-        num_lbl.text = 'Good job, you have enough numbers but the more the better'
-
+        num_lbl.text = 'Recommended atleast 2 numbers ✔️'
+    
+    word_count = 0
+    dictionary = PyDictionary
+    for word in dictionary:
+        if word in pass_inp.text:
+            word_count += 1
+    
+    if word_count > 0:
+        word_lbl.text = 'Recommended no dictionary words ❌'
+    if word_count == 0:
+        word_lbl.text = 'Recommended no dictionary words ✔️'
     
 
     
+
+
+
         
 
 # def check_len(event):
@@ -148,7 +162,8 @@ num_lbl = gp.Label(guide_window, '')
 guide_window.add(num_lbl, 2, 1)
 special_lbl = gp.Label(guide_window, '')
 guide_window.add(special_lbl, 3, 1)
-
+word_lbl = gp.Label(guide_window, '')
+guide_window.add(word_lbl, 4, 1)
 
 
 
