@@ -21,13 +21,110 @@ def toggle_password_visibility(event):
 def open_guide_window(event):
     guide_window.show()
 
-def score_system(event):
-    score_pb.value = 5
-    for steps in range(20):
-        score_pb.value += 5
-        app.refresh()
-        time.sleep(0.02)
+score = 100
+def score_system(score):
+    if len(pass_inp.text) <= 5:
+        score -= 20
+    if len(pass_inp.text) > 5 and len(pass_inp.text) <= 10:
+        score -= 15
+    if len(pass_inp.text) > 10 and len(pass_inp.text) <= 16:
+        score -= 5
+    if len(pass_inp.text) > 16:
+        score -= 0
+    
+
+    if pwnedpasswords.check(pass_inp.text) >= 1:
+        score -= 35
+    else:
+        score -= 0
+    
+
+    word_count = 0
+    for word in english_dictionary_words.dictionary:
+        if word in pass_inp.text:
+            word_count += 1
+    if word_count > 1:
+        score -= 15
+    if word_count == 1:
+        score -= 10
+    if word_count == 0:
+        score -= 0
+
+
+    total_numbers = 0
+    for character in pass_inp.text:
+        numbers = '1234567890'
+        if character in numbers:
+            total_numbers += 1
+    if total_numbers == 0:
+        score -= 10
+    if total_numbers == 1:
+        score -= 5
+    if total_numbers >= 2:
+        score -= 0
+
+
+
+    total_special = 0
+    for character in pass_inp.text:
+        special_characters = "~!@#$%^&*()_-+=|}]{[:;<,>.?/"
+        if character in special_characters:
+            total_special += 1
+    if total_special == 0:
+        score -= 10
+    if total_special == 1:
+        score -= 7
+    if total_special == 2:
+        score -= 3
+    if total_special >= 3:
+        score -= 0
+
+
+    total_uppercase = 0
+    for character in pass_inp.text:
+        uppercase_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        if character in uppercase_letters:
+            total_uppercase += 1
+    if total_uppercase == 0:
+        score -= 5
+    if total_uppercase == 1:
+        score -= 3
+    if total_uppercase >= 2:
+        score -= 0
+
+
+
+    total_lowercase = 0
+    for character in pass_inp.text:
+        lowercase_letters = 'abcdefghijklmnopqrstuvwxyz'
+        if character in lowercase_letters:
+            total_lowercase += 1
+    if total_lowercase == 0:
+        score -= 5
+    if total_lowercase == 1:
+        score -= 3
+    if total_lowercase >= 2:
+        score -= 0
+
+    return score
+
+
+
+
+
+
+
+
+
+
+
+def pro_bar_update(event):
+    score_rating_pb.value = 0
+    for steps in range(1):
+        score_rating_pb.value += 5
+        time.sleep(0.0)
     pass_inp.focus()
+    
 
 
 
@@ -153,6 +250,30 @@ def checks(event):
         len_lbl.text = 'Recommended at least 17 charcaters ✔️'
 
     # then check chars
+
+    total_lowercase = 0
+    for character in pass_inp.text:
+        lowercase_letters = 'abcdefghijklmnopqrstuvwxyz'
+        if character in lowercase_letters:
+            total_lowercase += 1
+    
+    if total_lowercase < 2:
+        lowercase_lbl.text = 'Recommended atleast 2 lowercase characters ❌'
+    if total_lowercase >= 2:
+        lowercase_lbl.text = 'Recommended atleast 2 lowercase characters ✔️'
+
+
+    total_uppercase = 0
+    for character in pass_inp.text:
+        uppercase_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        if character in uppercase_letters:
+            total_uppercase += 1
+    
+    if total_uppercase < 2:
+        uppercase_lbl.text = 'Recommended atleast 2 uppercase characters ❌'
+    if total_uppercase >= 2:
+        uppercase_lbl.text = 'Recommended atleast 2 uppercase characters ✔️'
+    
     
     total_special = 0
     for character in pass_inp.text:
@@ -173,7 +294,7 @@ def checks(event):
             total_numbers += 1
 
     if total_numbers < 2:
-        num_lbl.text = 'Recommended atleasr 2 numbers ❌'
+        num_lbl.text = 'Recommended atleast 2 numbers ❌'
     if total_numbers >= 2:
         num_lbl.text = 'Recommended atleast 2 numbers ✔️'
     
@@ -244,7 +365,7 @@ def checks(event):
 
 
 # setup a grid
-app.set_grid(4,3)
+app.set_grid(4,2)
 
 
 # Main App
@@ -252,8 +373,8 @@ pass_lbl = gp.Label(app, "Password")
 pass_inp = gp.Secret(app)
 check = gp.Checkbox(app, 'Show password')
 guide_btn = gp.Button(app, 'guide', open_guide_window)
-ask_btn = gp.Button(app, 'Ask', score_system)
-score_pb = gp.Progressbar(app)
+score_rating_pb = gp.Progressbar(app, 'determinate')
+
 
 
 pass_inp.width = 100
@@ -262,7 +383,7 @@ pass_inp.width = 100
 guide_window = gp.Window(app, 'Guide')
 guide_window.width = 500
 guide_window.height = 500
-guide_window.set_grid(6,1)
+guide_window.set_grid(7,1)
 len_lbl = gp.Label(guide_window, '')
 guide_window.add(len_lbl, 1, 1)
 num_lbl = gp.Label(guide_window, '')
@@ -273,15 +394,18 @@ word_lbl = gp.Label(guide_window, '')
 guide_window.add(word_lbl, 4, 1)
 pwned_lbl = gp.Label(guide_window, '')
 guide_window.add(pwned_lbl, 5, 1)
+lowercase_lbl = gp.Label(guide_window, '')
+guide_window.add(lowercase_lbl, 6, 1)
+uppercase_lbl = gp.Label(guide_window, '')
+guide_window.add(uppercase_lbl, 7, 1)
 
 
 
 #Location main app
 app.add(pass_lbl, 1,1)
 app.add(pass_inp,1,2)
-app.add(ask_btn, 1, 3, valign='middle')
 app.add(check, 2, 2)
-app.add(score_pb, 3, 1, column_span=2, fill=True)
+app.add(score_rating_pb, 3, 1, column_span=2, fill=True)
 app.add(guide_btn, 4, 1)
 
 
@@ -289,6 +413,7 @@ app.add(guide_btn, 4, 1)
 
 pass_inp.add_event_listener('change', checks)
 check.add_event_listener('change', toggle_password_visibility)
+# score_rating_pb.add_event_listener('key_press', pro_bar_update)
 
 
 app.run()

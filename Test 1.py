@@ -11,8 +11,8 @@ responses = ['It is certain.', 'It is decidedly so.', 'Without a doubt.',
 def ask(event):
     thinking_pb.value = 0
     answer_lbl.text = ''
-    for steps in range(8):
-        thinking_pb.value += 10
+    for steps in range(20):
+        thinking_pb.value += 5
         app.refresh()
         time.sleep(0.02)
     answer_lbl.text = choice(responses)

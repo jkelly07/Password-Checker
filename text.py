@@ -1,1 +1,3 @@
-import gooeypie as gp 
+import pwnedpasswords
+
+pwnedpasswords.check('123456789')
