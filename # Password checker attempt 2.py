@@ -7,6 +7,8 @@ import gooeypie as gp
 
 import time
 
+import pyperclip
+
 app = gp.GooeyPieApp('Password Checker')
 
 app.width = 1000
@@ -17,6 +19,9 @@ prohibited_words = []
 
 def toggle_password_visibility(event):
     pass_inp.toggle()
+
+def copy_to_clipboard(event):
+    pyperclip.copy(pass_inp.text)
 
 def open_guide_window(event):
     guide_window.show()
@@ -395,7 +400,6 @@ def checks(event):
 
 
 
-    print(f"{score}")
     score_rating_pb.value = 0
     for steps in range(1):
         score_rating_pb.value += score
@@ -448,8 +452,7 @@ def checks(event):
 
 
 
-# setup a grid
-app.set_grid(4,2)
+
 
 
 # Main App
@@ -459,6 +462,8 @@ check = gp.Checkbox(app, 'Show password')
 guide_btn = gp.Button(app, 'guide', open_guide_window)
 progress_guide_btn = gp.Button(app, 'Progress bar guide', open_progress_guide_window )
 score_rating_pb = gp.Progressbar(app)
+copy_button = gp.Button(app, 'Copy to Clipboard', copy_to_clipboard)
+
 
 
 
@@ -506,12 +511,14 @@ progress_guide_window.add(uppercase_guide_lbl, 5, 1)
 
 
 
-
+# set up a grid
 #Location main app
+app.set_grid(4,3)
 app.add(pass_lbl, 1,1)
 app.add(pass_inp,1,2)
+app.add(copy_button, 1, 3)
 app.add(check, 2, 2)
-app.add(score_rating_pb, 3, 1, column_span=2, fill=True)
+app.add(score_rating_pb, 3, 1, column_span=3, fill=True)
 app.add(guide_btn, 4, 1)
 app.add(progress_guide_btn, 4, 2)
 
