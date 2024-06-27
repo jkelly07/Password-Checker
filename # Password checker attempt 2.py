@@ -1,4 +1,4 @@
-# Password checker attempt 2
+
 import pwnedpasswords
 
 import english_dictionary_words
@@ -9,11 +9,11 @@ import time
 
 import pyperclip
 
-app = gp.GooeyPieApp('Password Checker')
+app = gp.GooeyPieApp('Locjk')
 
 app.width = 1000
 app.height = 300
-app.title = "Password Checker"
+app.title = "Locjk"
 
 prohibited_words = []
 
