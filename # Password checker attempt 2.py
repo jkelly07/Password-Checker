@@ -459,7 +459,7 @@ def checks(event):
 pass_lbl = gp.Label(app, "Password")
 pass_inp = gp.Secret(app)
 check = gp.Checkbox(app, 'Show password')
-guide_btn = gp.Button(app, 'guide', open_guide_window)
+guide_btn = gp.Button(app, 'Guide', open_guide_window)
 progress_guide_btn = gp.Button(app, 'Progress bar guide', open_progress_guide_window )
 score_rating_pb = gp.Progressbar(app)
 copy_button = gp.Button(app, 'Copy to Clipboard', copy_to_clipboard)
@@ -490,7 +490,7 @@ uppercase_lbl = gp.Label(guide_window, '')
 guide_window.add(uppercase_lbl, 5, 1)
 
 #Progress bar guide window
-progress_guide_window = gp.Window(app, 'Help')
+progress_guide_window = gp.Window(app, 'Progress Bar Guide')
 progress_guide_window.width = 500
 progress_guide_window.height = 500
 progress_guide_window.set_grid(7,1)
